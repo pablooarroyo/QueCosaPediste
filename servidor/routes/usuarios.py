@@ -6,10 +6,10 @@ usuarios_bp = Blueprint("usuarios", __name__)
 
 def get_db_connection():
     return mysql.connector.connect(
-        host=os.getenv("localhost"),
-        user=os.getenv("root"),
-        password=os.getenv("1234"),
-        database=os.getenv("QueCosaPediste")
+        host=os.getenv("MYSQL_HOST"),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_PASSWORD"),
+        database=os.getenv("MYSQL_DB")
     )
 
 @usuarios_bp.route('/usuarios', methods=['GET'])

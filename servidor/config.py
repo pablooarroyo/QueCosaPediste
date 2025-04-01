@@ -1,6 +1,6 @@
+import os
 class Config:
-    MYSQL_HOST = 'localhost'
-    MYSQL_USER = 'root'  # Reemplaza con tu usuario de MySQL
-    MYSQL_PASSWORD = '1234'  # Reemplaza con tu contraseña de MySQL
-    MYSQL_DB = 'QueCosaPediste'
-    MYSQL_CURSORCLASS = 'DictCursor'  # Para obtener los resultados como diccionarios
+    host=os.getenv("MYSQL_HOST"),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DB")
