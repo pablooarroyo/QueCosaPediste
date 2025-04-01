@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-from flask_mysqldb import MySQL
 from flask_cors import CORS
 from config import Config # Asegúrate de que este archivo existe y está bien configurado
 import os
@@ -8,7 +7,6 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 # Inicializar MySQL y CORS
-mysql = MySQL(app)
 CORS(app)
 
 # Ahora registramos el blueprint después de la configuración de Flask

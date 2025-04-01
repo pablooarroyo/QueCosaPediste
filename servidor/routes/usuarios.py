@@ -1,20 +1,26 @@
 from flask import Blueprint, request, jsonify, render_template
-from flask_mysqldb import MySQL
-from app import app  # Importamos el objeto app de app.py
+import mysql.connector
+import os
 
-# Crear el Blueprint
 usuarios_bp = Blueprint("usuarios", __name__)
 
-# Ahora la conexión se maneja directamente con el contexto de Flask
-mysql = MySQL(app)  # Usamos el objeto app global para inicializar mysql
+def get_db_connection():
+    return mysql.connector.connect(
+        host=os.getenv("localhost"),
+        user=os.getenv("root"),
+        password=os.getenv("1234"),
+        database=os.getenv("QueCosaPediste")
+    )
 
 @usuarios_bp.route('/usuarios', methods=['GET'])
 def obtener_usuarios():
     try:
-        cur = mysql.connection.cursor()
+        conn = get_db_connection()
+        cur = conn.cursor(dictionary=True)
         cur.execute("SELECT * FROM usuarios")
         usuarios = cur.fetchall()
         cur.close()
+        conn.close()
         return jsonify(usuarios)
     except Exception as e:
         return jsonify({"error": str(e)})
@@ -28,10 +34,13 @@ def crear_usuario():
         contraseña = datos["contraseña"]
         rol = datos["rol"]
 
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO usuarios (nombre, email, contraseña, rol) VALUES (%s, %s, %s, %s)", (nombre, email, contraseña, rol))
-        mysql.connection.commit()
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("INSERT INTO usuarios (nombre, email, contraseña, rol) VALUES (%s, %s, %s, %s)",
+                    (nombre, email, contraseña, rol))
+        conn.commit()
         cur.close()
+        conn.close()
 
         return jsonify({"mensaje": "Usuario creado con éxito"})
     except Exception as e:
