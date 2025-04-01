@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Registrar Usuario</h2>
+<form action="{{ url_for('usuarios.crear_usuario') }}" method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="contraseña">Contraseña:</label>
+    <input type="password" id="contraseña" name="contraseña" required>
+
+    <label for="rol">Rol:</label>
+    <select id="rol" name="rol">
+        <option value="cliente">Cliente</option>
+        <option value="restaurante">Restaurante</option>
+        <option value="repartidor">Repartidor</option>
+    </select>
+
+    <button type="submit">Registrar</button>
+</form>
+{% endblock %}
